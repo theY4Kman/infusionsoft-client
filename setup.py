@@ -41,7 +41,7 @@ with open(pkg_root('version.py')) as fp:
 
 
 setup(
-    name='infusionsoft-api',
+    name='infusionsoft-client',
     version=version,
     author='Zach "theY4Kman" Kanzler',
     author_email='they4kman@gmail.com',
