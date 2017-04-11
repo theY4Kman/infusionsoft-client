@@ -60,52 +60,21 @@ To use it, create a lambda (or regular) function taking ``page`` and ``limit`` a
 Usage with Django
 -----------------
 
-``infusionsoft-client`` doesn't require anything special to work with Django, but it does offer recommendations.
+``infusionsoft-client`` includes a Django integration out of the box. Just add it to your ``INSTALLED_APPS``:
 
-First, put your Infusionsoft API URL and key in your settings.py:
+.. code-block:: python
+
+    INSTALLED_APPS = (
+        # ...
+        'infusionsoft.contrib.django',
+    )
+
+And add your API URL and key to your settings:
 
 .. code-block:: python
 
     INFUSIONSOFT_API_URL = 'https://myapp.infusionsoft.com/api/xmlrpc'
     INFUSIONSOFT_API_KEY = '098f6bcd4621d373cade4e832627b4f6'
-
-Then call ``initialize()`` in your Django ``AppConfig.ready`` hook in your `apps.py <https://docs.djangoproject.com/en/1.10/ref/applications/>`_ (Django 1.9+):
-
-.. code-block:: python
-
-    from django.apps import AppConfig
-    from django.conf import settings
-
-    import infusionsoft
-
-    class MyAppConfig(AppConfig): # Our app config class
-        name = 'my_app'
-        verbose_name = 'My Application'
-
-        def ready(self):
-            infusionsoft.initialize(settings.INFUSIONSOFT_API_URL,
-                                    settings.INFUSIONSOFT_API_KEY)
-
-
-Note: this apps.py should usually live in the same folder as your root urls.py. If this is the first you're creating your apps.py (which is not necessary, usually), you'll also need to put this line in your package's __init__.py:
-
-.. code-block:: python
-
-    default_app_config = 'my_app.apps.MyAppConfig'
-
-If you're on Django 1.8 or below, you can put the ``initialize()`` call at the bottom of your models.py:
-
-.. code-block:: python
-
-    from django.conf import settings
-    from django.db import models
-
-    import infusionsoft
-
-    # Your models here...
-
-    infusionsoft.initialize(settings.INFUSIONSOFT_API_URL,
-                            settings.INFUSIONSOFT_API_KEY)
 
 
 Generate Code Stubs

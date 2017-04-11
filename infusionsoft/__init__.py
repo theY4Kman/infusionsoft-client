@@ -1,8 +1,7 @@
 import sys
 from xmlrpc.client import ServerProxy
 
-from lazy_object_proxy import Proxy
-
+from infusionsoft.vendor.werkzeug.local import LocalProxy
 from infusionsoft.client import get_client, InfusionsoftServerProxy
 
 
@@ -11,26 +10,60 @@ import infusionsoft.query
 import infusionsoft.gen_stubs
 import infusionsoft.client
 
-from infusionsoft.version import __version__
+query = infusionsoft.query
+gen_stubs = infusionsoft.gen_stubs
+client = infusionsoft.client
 
+try:
+    import infusionsoft.contrib
+except ImportError:
+    contrib = None
+else:
+    contrib = infusionsoft.contrib
 
 # Expose stubs
 from infusionsoft.stubs import *
 from infusionsoft.stubs import __all__
 
+from infusionsoft.version import __version__
+
+
+# Stub. The actual values are exposed by Initialized/UninitializedServerProxy.
+is_initialized = False
+def initialize(api_url: str, api_key: str): pass
+
+
+__all__ += ['query', 'gen_stubs', 'client', 'contrib', 'is_initialized']
+
 
 class InitializeMixin:
+    # Play nicely with conventions
+    __version__ = __version__
+    __name__ = __name__
+    __path__ = __path__
+    __file__ = __file__
+
+    # Django checks for a "models" submodule in the root package, cuz why not
+    models = None
+
+    # Expose submodules
+    query = query
+    gen_stubs = gen_stubs
+    client = client
+    contrib = contrib
+
     def initialize(self, api_url: str, api_key: str):
-        global _client
-        _client = get_client(api_url, api_key, client_cls=InitializedServerProxy)
-        client.__wrapped__ = _client
+        global _api_client
+        _api_client = get_client(api_url, api_key, client_cls=InitializedServerProxy)
 
 
 class InitializedServerProxy(InitializeMixin, InfusionsoftServerProxy):
-    pass
+    is_initialized = True
 
 
 class UninitializedServerProxy(InitializeMixin, ServerProxy, object):
+    is_initialized = False
+
     def __init__(self, *args, **kwargs):
         super().__init__('http://uninitialized', *args, **kwargs)
         self.__real_request = self._ServerProxy__request
@@ -40,20 +73,10 @@ class UninitializedServerProxy(InitializeMixin, ServerProxy, object):
         raise ValueError('Please call infusionsoft.initialize first.')
 
 
-_client = UninitializedServerProxy()
-client = Proxy(lambda: _client)
-
-# Place submodules on proxy, so "import infusionsoft.blank" works as expected
-client.query = infusionsoft.query
-client.gen_stubs = infusionsoft.gen_stubs
-client.client = infusionsoft.client
-
-# Play nicely with conventions
-client.__version__ = __version__
-
-# Django's runserver reloader requires this property
-client.__file__ = __file__
+_api_client = UninitializedServerProxy()
+api_client = LocalProxy(lambda: _api_client, 'infusionsoft')
 
 
 # Expose XML-RPC client as `infusionsoft` module
-sys.modules[__name__] = client
+del sys.modules[__name__]
+sys.modules[__name__] = api_client

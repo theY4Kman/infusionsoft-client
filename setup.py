@@ -1,6 +1,6 @@
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def build_install_requires(path):
@@ -47,7 +47,7 @@ setup(
     author_email='they4kman@gmail.com',
     description='Sexy Infusionsoft XML-RPC API client',
     long_description=long_description,
-    packages=[pkg],
+    packages=find_packages(include=(pkg, pkg + '.*')),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
@@ -57,5 +57,6 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content :: CGI Tools/Libraries',
     ],
     install_requires=build_install_requires(from_root('requirements.txt')),
+    extras_requires=build_install_requires(from_root('django-requirements.txt')),
     include_package_data=True,
 )
