@@ -1,5 +1,5 @@
-UNRELEASED (TBA)
-================
+1.3.0 (2017/04/11)
+==================
 
 - Expose real `infusionsoft` module, for easy mocking during testing.
 
