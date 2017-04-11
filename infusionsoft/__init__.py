@@ -6,6 +6,14 @@ from lazy_object_proxy import Proxy
 from infusionsoft.client import get_client, InfusionsoftServerProxy
 
 
+# Place submodules into sys.modules before overriding the "infusionsoft" module
+import infusionsoft.query
+import infusionsoft.gen_stubs
+import infusionsoft.client
+
+from infusionsoft.version import __version__
+
+
 # Expose stubs
 from infusionsoft.stubs import *
 
@@ -33,6 +41,9 @@ class UninitializedServerProxy(InitializeMixin, ServerProxy, object):
 
 _client = UninitializedServerProxy()
 client = Proxy(lambda: _client)
+
+# Play nicely with conventions
+client.__version__ = __version__
 
 # Django's runserver reloader requires this property
 client.__file__ = __file__

@@ -34,6 +34,29 @@ And use the ``infusionsoft`` like a regular `xmlrpc.client.ServerProxy <https://
 
 
 
+Getting All Rows of a Query
+---------------------------
+
+Some API calls are paginated, and require multiple calls to retrieve all results. This can be a pain, and you may find yourself writing the same code over and over. To this end, ``infusionsoft-client`` provides a ``consume()`` generator function, which will consume all pages of any query function.
+
+To use it, create a lambda (or regular) function taking ``page`` and ``limit`` as arguments which performs your paginated API call, and pass it to ``consume()``:
+
+.. code-block:: python
+
+    import infusionsoft
+    from infusionsoft.query import consume
+
+    query_fn = lambda page, limit: infusionsoft.DataService.query('mytable', limit, page, ['Id'])
+
+    # Use with a for-loop, to avoid storing all rows in memory:
+    for row in consume(query_fn):
+        do_stuff(row)
+
+    # Or retrieve all rows at once
+    all_rows = list(consume(query_fn))
+
+
+
 Usage with Django
 -----------------
 
