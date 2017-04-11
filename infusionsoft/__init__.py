@@ -6,7 +6,7 @@ from lazy_object_proxy import Proxy
 from infusionsoft.client import get_client, InfusionsoftServerProxy
 
 
-# Place submodules into sys.modules before overriding the "infusionsoft" module
+# Import submodules before overriding "infusionsoft" in sys.modules
 import infusionsoft.query
 import infusionsoft.gen_stubs
 import infusionsoft.client
@@ -42,6 +42,11 @@ class UninitializedServerProxy(InitializeMixin, ServerProxy, object):
 
 _client = UninitializedServerProxy()
 client = Proxy(lambda: _client)
+
+# Place submodules on proxy, so "import infusionsoft.blank" works as expected
+client.query = infusionsoft.query
+client.gen_stubs = infusionsoft.gen_stubs
+client.client = infusionsoft.client
 
 # Play nicely with conventions
 client.__version__ = __version__
