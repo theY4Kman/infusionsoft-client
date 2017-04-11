@@ -1,5 +1,5 @@
-UNRELEASED (TBA)
-================
+1.2.0 (2017/04/11)
+==================
 
  - Include Django integration
  - Switch to Werkzeug LocalProxy class (far simpler to understand)
