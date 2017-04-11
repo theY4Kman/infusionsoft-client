@@ -6,6 +6,10 @@ from xmlrpc.client import ServerProxy, ProtocolError, Fault
 logger = logging.getLogger(__name__)
 
 
+__all__ = ['DefaultArgServerProxy', 'RetryServerProxy',
+           'InfusionsoftServerProxy', 'get_client']
+
+
 class DefaultArgServerProxy(ServerProxy, object):
     """Pass positional args to all method calls"""
 

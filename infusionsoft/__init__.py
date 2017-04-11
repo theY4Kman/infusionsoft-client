@@ -16,6 +16,7 @@ from infusionsoft.version import __version__
 
 # Expose stubs
 from infusionsoft.stubs import *
+from infusionsoft.stubs import __all__
 
 
 class InitializeMixin:

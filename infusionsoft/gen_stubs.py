@@ -1,3 +1,6 @@
+__all__ = ['generate_stubs']
+
+
 def generate_stubs():
     import re
     from collections import defaultdict

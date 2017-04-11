@@ -5,6 +5,24 @@
 from typing import List, Dict
 from datetime import datetime, date
 
+__all__ = [
+    'APIAffiliateService',
+    'APIEmailService',
+    'AffiliateProgramService',
+    'AffiliateService',
+    'ContactService',
+    'DataService',
+    'DiscountService',
+    'FileService',
+    'FunnelService',
+    'InvoiceService',
+    'OrderService',
+    'ProductService',
+    'SearchService',
+    'ShippingService',
+    'WebFormService',
+]
+
 
 class APIAffiliateService:
     @staticmethod
