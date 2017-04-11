@@ -37,6 +37,8 @@ __all__ += ['query', 'gen_stubs', 'client', 'contrib', 'is_initialized']
 
 
 class InitializeMixin:
+    _real_module = sys.modules[__name__]
+
     # Play nicely with conventions
     __version__ = __version__
     __name__ = __name__
