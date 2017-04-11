@@ -22,7 +22,8 @@ First, initialize the client with your API URL and API key:
 .. code-block:: python
 
     import infusionsoft
-    infusionsoft.initialize('https://myapp.infusionsoft.com/api/xmlrpc', '098f6bcd4621d373cade4e832627b4f6')
+    infusionsoft.initialize('https://myapp.infusionsoft.com/api/xmlrpc',
+                            '098f6bcd4621d373cade4e832627b4f6')
 
 
 And use the ``infusionsoft`` like a regular `xmlrpc.client.ServerProxy <https://docs.python.org/3/library/xmlrpc.client.html>`_:
@@ -46,7 +47,8 @@ To use it, create a lambda (or regular) function taking ``page`` and ``limit`` a
     import infusionsoft
     from infusionsoft.query import consume
 
-    query_fn = lambda page, limit: infusionsoft.DataService.query('mytable', limit, page, ['Id'])
+    query_fn = lambda page, limit: (
+        infusionsoft.DataService.query('mytable', limit, page, ['Id']))
 
     # Use with a for-loop, to avoid storing all rows in memory:
     for row in consume(query_fn):

@@ -54,7 +54,8 @@ class InitializeMixin:
 
     def initialize(self, api_url: str, api_key: str):
         global _api_client
-        _api_client = get_client(api_url, api_key, client_cls=InitializedServerProxy)
+        _api_client = get_client(api_url, api_key,
+                                 client_cls=InitializedServerProxy)
 
 
 class InitializedServerProxy(InitializeMixin, InfusionsoftServerProxy):

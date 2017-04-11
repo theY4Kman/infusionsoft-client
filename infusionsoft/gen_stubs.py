@@ -11,14 +11,16 @@ def generate_stubs():
         from bs4 import BeautifulSoup
         from stringcase import camelcase
     except ImportError:
-        raise RuntimeError('Please `pip install reqs/infusionsoft_stubs.txt` before ')
+        raise RuntimeError('Please `pip install reqs/infusionsoft_stubs.txt` '
+                           'before generating stubs')
 
     INFUSIONSOFT_DOCS_URL = 'https://developer.infusionsoft.com/docs/xml-rpc/'
     response = requests.get(INFUSIONSOFT_DOCS_URL)
     assert response.status_code == 200
     doc = BeautifulSoup(response.content, 'html.parser')
 
-    el_calls = doc.find_all(class_='method', id=re.compile('^(?!introduction)'))
+    el_calls = doc.find_all(class_='method',
+                            id=re.compile('^(?!introduction)'))
     services = defaultdict(dict)
     for el_call in el_calls:
         if not el_call.find(class_='lang-xml'):
@@ -66,7 +68,8 @@ def generate_stubs():
         el_title = el_call.find('h3')
         title = el_title.find(text=True).strip()
 
-        el_desc_paras = el_call.find(class_='method-description').findAll('p', recursive=False)
+        el_meth_desc = el_call.find(class_='method-description')
+        el_desc_paras = el_meth_desc.findAll('p', recursive=False)
         desc = '\n\n'.join(el_p.text.strip() for el_p in el_desc_paras)
 
         # Parse method name
@@ -83,7 +86,12 @@ def generate_stubs():
         service, method = name.split('.', 1)
         services[service][method] = (params, rtype, title, desc)
 
-    lines = ['from typing import List, Dict', 'from datetime import datetime', '', '']
+    lines = [
+        'from typing import List, Dict',
+        'from datetime import datetime',
+        '',
+        '',
+    ]
 
     TYPE_MAP = {
         'i4': 'int',
@@ -101,7 +109,9 @@ def generate_stubs():
         lines.append(f'class {service}:')
         methods = sorted(methods.items())
         for name, (params, rtype, title, desc) in methods:
-            params = params[1:]  # apiKey is always first param, and we don't need it
+            # apiKey is always first param, which is handled automatically by
+            # DefaultArgServerProxy, so we ignore it here.
+            params = params[1:]
             params = [f'{n}: {TYPE_MAP.get(t, t)}' for n, t in params]
 
             rtype = TYPE_MAP.get(rtype, rtype)

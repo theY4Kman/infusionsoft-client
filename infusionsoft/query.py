@@ -9,7 +9,8 @@ def consume(query_fn: Callable[[int], List], limit=1000, start=0, max=100,
     """Yield all rows from a paginated query.
 
     >>> import infusionsoft
-    >>> query_fn = lambda page, limit: infusionsoft.DataService.query('mytable', limit, page, ['Id'])
+    >>> query_fn = lambda page, limit: (
+    ...     infusionsoft.DataService.query('mytable', limit, page, ['Id']))
     >>> all_rows = list(consume(query_fn))
 
     :param query_fn: Method which queries Infusionsoft and returns its rows. It

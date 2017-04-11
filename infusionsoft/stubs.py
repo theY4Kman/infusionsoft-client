@@ -673,8 +673,8 @@ class InvoiceService:
 
     @staticmethod
     def chargeInvoice(invoiceID: int, notes: str, creditCardID: int,
-                      merchantAccountID: int, bypassComissions: bool) -> Dict[
-        str, any]:
+                      merchantAccountID: int,
+                      bypassComissions: bool) -> Dict[str, any]:
         """Pay an Invoice
 
         Charges the specified card the amount currently due on the invoice.
