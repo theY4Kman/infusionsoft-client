@@ -10,7 +10,7 @@ Installation
 
 .. code-block:: bash
 
-    pip install infusionsoft-api
+    pip install infusionsoft-client
 
 
 
