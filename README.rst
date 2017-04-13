@@ -1,6 +1,15 @@
 infusionsoft-client
 ===================
 
+.. image:: https://img.shields.io/github/license/mashape/apistatus.svg
+    :target: https://github.com/theY4Kman/infusionsoft-client/blob/master/LICENSE
+    
+.. image:: https://badges.gitter.im/they4kman/infusionsoft-client.png
+    :target: https://gitter.im/infusionsoft-client/Lobby
+    
+.. image:: https://badge.fury.io/py/infusionsoft-client.svg
+    :target: https://badge.fury.io/py/infusionsoft-client
+
 A simple-to-use `Infusionsoft XML-RPC API <https://developer.infusionsoft.com/docs/xml-rpc/>`_ client, with included stubs for code sense. Python 3.5+ only (but pull requests welcome :smirk:).
 
 
