@@ -44,6 +44,27 @@ And use the ``infusionsoft`` like a regular `xmlrpc.client.ServerProxy <https://
 
 
 
+Usage with Django
+-----------------
+
+``infusionsoft-client`` includes a Django integration out of the box. Just add it to your ``INSTALLED_APPS``:
+
+.. code-block:: python
+
+    INSTALLED_APPS = (
+        # ...
+        'infusionsoft.contrib.django',
+    )
+
+And add your API URL and key to your settings:
+
+.. code-block:: python
+
+    INFUSIONSOFT_API_URL = 'https://myapp.infusionsoft.com/api/xmlrpc'
+    INFUSIONSOFT_API_KEY = '098f6bcd4621d373cade4e832627b4f6'
+
+
+
 Getting All Rows of a Query
 ---------------------------
 
@@ -65,27 +86,6 @@ To use it, create a lambda (or regular) function taking ``page`` and ``limit`` a
 
     # Or retrieve all rows at once
     all_rows = list(consume(query_fn))
-
-
-
-Usage with Django
------------------
-
-``infusionsoft-client`` includes a Django integration out of the box. Just add it to your ``INSTALLED_APPS``:
-
-.. code-block:: python
-
-    INSTALLED_APPS = (
-        # ...
-        'infusionsoft.contrib.django',
-    )
-
-And add your API URL and key to your settings:
-
-.. code-block:: python
-
-    INFUSIONSOFT_API_URL = 'https://myapp.infusionsoft.com/api/xmlrpc'
-    INFUSIONSOFT_API_KEY = '098f6bcd4621d373cade4e832627b4f6'
 
 
 Generate Code Stubs
