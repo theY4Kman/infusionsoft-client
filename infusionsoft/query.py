@@ -4,7 +4,7 @@ from typing import List, Callable
 __all__ = ['consume']
 
 
-def consume(query_fn: Callable[[int], List], limit=1000, start=0, max=100,
+def consume(query_fn: Callable[[int, int], List], limit=1000, start=0, max=100,
             raise_exception=False):
     """Yield all rows from a paginated query.
 
