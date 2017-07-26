@@ -1,7 +1,7 @@
 infusionsoft-client
 ===================
 
-.. image:: https://img.shields.io/github/license/mashape/apistatus.svg
+.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
     :target: https://github.com/theY4Kman/infusionsoft-client/blob/master/LICENSE
     
 .. image:: https://badges.gitter.im/they4kman/infusionsoft-client.png
