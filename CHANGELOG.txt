@@ -2,6 +2,7 @@ UNRELEASED (TBA)
 ================
 
  - Python 3.5 support (str.format used, instead of f-strings)
+ - Update stub generator to handle Infusionsoft's new in-browser API call explorer
 
 
 

@@ -20,7 +20,7 @@ def generate_stubs():
     doc = BeautifulSoup(response.content, 'html.parser')
 
     el_calls = doc.find_all(class_='method',
-                            id=re.compile('^(?!introduction)'))
+                            id=re.compile('^(?!introduction|authentication)'))
     services = defaultdict(dict)
     for el_call in el_calls:
         if not el_call.find(class_='lang-xml'):
@@ -30,7 +30,14 @@ def generate_stubs():
         # Parse parameters
         params = []
         for el_arg in el_call.find_all(class_='argument'):
-            argname = el_arg.find(class_='col-sm-4').find('b').text.rstrip(':')
+            el_argname = el_arg.find(class_='col-sm-4')
+            if not el_argname:
+                # The API docs include an interactive API call explorer, which
+                # also use the class name "argument". Thankfully, ".col-sm-4"
+                # is not found inside these .arguments :)
+                continue
+
+            argname = el_argname.find('b').text.rstrip(':')
             # Sometimes these are human descriptions, not keywords... for shame
             argname = camelcase(argname.replace(' ', ''))
 
@@ -88,7 +95,7 @@ def generate_stubs():
 
     lines = [
         'from typing import List, Dict',
-        'from datetime import datetime',
+        'from datetime import datetime, date',
         '',
         '',
     ]
@@ -118,6 +125,7 @@ def generate_stubs():
 
             rtype = TYPE_MAP.get(rtype, rtype)
 
+            # TODO: implement pep8 wrapping
             indent = ' ' * 8
             docstring_parts = [title + '\n' if title else None]
             docstring_parts += [(indent + line).rstrip()
@@ -148,3 +156,7 @@ def generate_stubs():
     source = autopep8.fix_code(source, {'max_line_length': 79})
 
     return source
+
+
+if __name__ == '__main__':
+    print(generate_stubs())
