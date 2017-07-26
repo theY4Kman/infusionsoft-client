@@ -106,13 +106,15 @@ def generate_stubs():
     }
     services = sorted(services.items())
     for service, methods in services:
-        lines.append(f'class {service}:')
+        lines.append('class {service}:'.format(service=service))
         methods = sorted(methods.items())
         for name, (params, rtype, title, desc) in methods:
             # apiKey is always first param, which is handled automatically by
             # DefaultArgServerProxy, so we ignore it here.
             params = params[1:]
-            params = [f'{n}: {TYPE_MAP.get(t, t)}' for n, t in params]
+            params = ['{arg}: {type}'.format(arg=n, type=TYPE_MAP.get(t, t))
+                      for n, t in params]
+            proto = ', '.join(params)
 
             rtype = TYPE_MAP.get(rtype, rtype)
 
@@ -122,14 +124,21 @@ def generate_stubs():
                                 for line in desc.split('\n')]
             docstring_contents = '\n'.join(docstring_parts).strip()
 
+            fmt_params = {
+                'name': name,
+                'proto': proto,
+                'rtype': rtype,
+                'docstring': docstring_contents,
+            }
+
             indent = ' ' * 4
             meth_lines = [
-                f'@staticmethod',
-                f'def {name}({", ".join(params)}) -> {rtype}:',
-                f'    """{docstring_contents}',
-                f'    """',
-                f'    pass',
-                f'',
+                '@staticmethod',
+                'def {name}({proto}) -> {rtype}:'.format(**fmt_params),
+                '    """{docstring}'.format(**fmt_params),
+                '    """',
+                '    pass',
+                '',
             ]
             lines += [indent + line for line in meth_lines]
         lines.append('')

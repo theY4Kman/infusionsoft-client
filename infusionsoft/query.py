@@ -29,4 +29,5 @@ def consume(query_fn: Callable[[int, int], List], limit=1000, start=0, max=100,
             break
     else:
         if raise_exception:
-            raise RuntimeError(f'Maximum of {max} pages exceeded')
+            raise RuntimeError(
+                'Maximum of {max} pages exceeded'.format(max=max))
