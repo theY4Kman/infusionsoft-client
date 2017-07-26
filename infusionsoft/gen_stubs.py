@@ -11,7 +11,7 @@ def generate_stubs():
         from bs4 import BeautifulSoup
         from stringcase import camelcase
     except ImportError:
-        raise RuntimeError('Please `pip install reqs/infusionsoft_stubs.txt` '
+        raise RuntimeError('Please `pip install -r stub-requirements.txt` '
                            'before generating stubs')
 
     INFUSIONSOFT_DOCS_URL = 'https://developer.infusionsoft.com/docs/xml-rpc/'
