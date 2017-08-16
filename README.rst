@@ -26,13 +26,12 @@ Installation
 Quickstart
 ----------
 
-First, initialize the client with your API URL and API key:
+First, initialize the client with your app name and API key:
 
 .. code-block:: python
 
     import infusionsoft
-    infusionsoft.initialize('https://myapp.infusionsoft.com/api/xmlrpc',
-                            '098f6bcd4621d373cade4e832627b4f6')
+    infusionsoft.initialize('myapp', '098f6bcd4621d373cade4e832627b4f6')
 
 
 And use the ``infusionsoft`` like a regular `xmlrpc.client.ServerProxy <https://docs.python.org/3/library/xmlrpc.client.html>`_:
@@ -56,11 +55,11 @@ Usage with Django
         'infusionsoft.contrib.django',
     )
 
-And add your API URL and key to your settings:
+And add your app name and API key to your settings:
 
 .. code-block:: python
 
-    INFUSIONSOFT_API_URL = 'https://myapp.infusionsoft.com/api/xmlrpc'
+    INFUSIONSOFT_APP_NAME = 'myapp'
     INFUSIONSOFT_API_KEY = '098f6bcd4621d373cade4e832627b4f6'
 
 
@@ -91,7 +90,7 @@ To use it, create a lambda (or regular) function taking ``page`` and ``limit`` a
 Generate Code Stubs
 -------------------
 
-Shipped with ``infusionsoft-api`` is code to download the official Infusionsoft XML-RPC docs, parse them with `BeautifulSoup <https://www.crummy.com/software/BeautifulSoup/bs4/doc/>`_, and generate Python 3.5-compatible stubs for all methods.
+Shipped with ``infusionsoft-client`` is code to download the official Infusionsoft XML-RPC docs, parse them with `BeautifulSoup <https://www.crummy.com/software/BeautifulSoup/bs4/doc/>`_, and generate Python 3.5-compatible stubs for all methods.
 
 To generate these yourself, first install the extra requirements:
 
