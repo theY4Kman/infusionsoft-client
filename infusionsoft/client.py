@@ -63,5 +63,11 @@ class InfusionsoftServerProxy(RetryServerProxy, DefaultArgServerProxy):
         super().__init__(*args, **kwargs)
 
 
-def get_client(api_url: str, api_key: str, client_cls=InfusionsoftServerProxy):
+def get_client(api_url_or_app_name: str, api_key: str, client_cls=InfusionsoftServerProxy):
+    if api_url_or_app_name.startswith('https://'):
+        api_url = api_url_or_app_name
+    else:
+        url_fmt = 'https://{app_name}.infusionsoft.com/api/xmlrpc'
+        api_url = url_fmt.format(app_name=api_url_or_app_name)
+
     return client_cls(api_url, default_args=[api_key])

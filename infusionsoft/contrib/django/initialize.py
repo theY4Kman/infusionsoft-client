@@ -6,11 +6,18 @@ def initialize():
     import infusionsoft
 
     if not infusionsoft.is_initialized:
-        try:
-            api_url = settings.INFUSIONSOFT_API_URL
-            api_key = settings.INFUSIONSOFT_API_KEY
-        except AttributeError:
-            raise ValueError('Please set INFUSIONSOFT_API_URL and '
-                             'INFUSIONSOFT_API_KEY in your settings')
+        api_key = getattr(settings, 'INFUSIONSOFT_API_KEY', None)
+
+        app_name = getattr(settings, 'INFUSIONSOFT_APP_NAME', None)
+        if app_name:
+            app_name_or_api_url = app_name
         else:
-            infusionsoft.initialize(api_url, api_key)
+            app_name_or_api_url = getattr(settings, 'INFUSIONSOFT_API_URL',
+                                          None)
+
+        if not api_key or not app_name_or_api_url:
+            raise ValueError(
+                'Please set INFUSIONSOFT_APP_NAME or INFUSIONSOFT_API_URL, '
+                'and INFUSIONSOFT_API_KEY in your settings')
+
+        infusionsoft.initialize(app_name_or_api_url, api_key)
