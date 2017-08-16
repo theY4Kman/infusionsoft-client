@@ -43,6 +43,7 @@ with open(pkg_root('version.py')) as fp:
 setup(
     name='infusionsoft-client',
     version=version,
+    url='https://github.com/theY4Kman/infusionsoft-client',
     author='Zach "theY4Kman" Kanzler',
     author_email='they4kman@gmail.com',
     description='Sexy Infusionsoft XML-RPC API client',
