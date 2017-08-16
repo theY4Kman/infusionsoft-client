@@ -1,5 +1,5 @@
-UNRELEASED (TBA)
-================
+1.4.0 (2017/08/16)
+==================
 
  - Accept app name *or* API URL in initialize()
  - Denote optional arguments in stubs
