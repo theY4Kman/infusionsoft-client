@@ -7,12 +7,12 @@ from infusionsoft.client import get_client, InfusionsoftServerProxy
 
 # Import submodules before overriding "infusionsoft" in sys.modules
 import infusionsoft.query
-import infusionsoft.gen_stubs
 import infusionsoft.client
+import infusionsoft.stubs
 
 query = infusionsoft.query
-gen_stubs = infusionsoft.gen_stubs
 client = infusionsoft.client
+stubs = infusionsoft.stubs
 
 try:
     import infusionsoft.contrib
@@ -50,7 +50,6 @@ class InitializeMixin:
 
     # Expose submodules
     query = query
-    gen_stubs = gen_stubs
     client = client
     contrib = contrib
 

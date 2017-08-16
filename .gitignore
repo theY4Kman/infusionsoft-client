@@ -1,6 +1,9 @@
 # PyCharm project files
 .idea/
 
+# Cached API HTML
+infusionsoft/_cached_api_docs.html
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
