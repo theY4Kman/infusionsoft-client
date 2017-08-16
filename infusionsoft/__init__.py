@@ -1,5 +1,6 @@
+import functools
 import sys
-from xmlrpc.client import ServerProxy
+from xmlrpc.client import ServerProxy, _Method
 
 from infusionsoft.vendor.werkzeug.local import LocalProxy
 from infusionsoft.client import get_client, InfusionsoftServerProxy
@@ -36,6 +37,41 @@ def initialize(api_url: str, api_key: str): pass
 __all__ += ['query', 'gen_stubs', 'client', 'contrib', 'is_initialized']
 
 
+class _Service(_Method):
+    def __init__(self, send, name):
+        super(_Service, self).__init__(send, name)
+        self._wrapped = getattr(stubs, name, None)
+        self._methods = {}
+
+    def __dir__(self):
+        return dir(self._wrapped)
+
+    def __getattr__(self, name):
+        if name not in self._methods:
+            wrapped = getattr(self._wrapped, name, None)
+            if wrapped:
+                class _WrappedMethod(_Method):
+                    @functools.wraps(wrapped)
+                    def __call__(self, *args):
+                        return super(_WrappedMethod, self).__call__(*args)
+
+                rpc_name = '{}.{}'.format(self._Method__name, name)
+                method =_WrappedMethod(self._Method__send, rpc_name)
+            else:
+                method = super(_Service, self).__getattr__(name)
+            self._methods[name] = method
+
+        return self._methods[name]
+
+
+class StubMixin:
+    def __dir__(self):
+        return stubs.__all__
+
+    def __getattr__(self, service):
+        return _Service(self._ServerProxy__request, service)
+
+
 class InitializeMixin:
     _real_module = sys.modules[__name__]
 
@@ -59,11 +95,12 @@ class InitializeMixin:
                                  client_cls=InitializedServerProxy)
 
 
-class InitializedServerProxy(InitializeMixin, InfusionsoftServerProxy):
+class InitializedServerProxy(StubMixin, InitializeMixin,
+                             InfusionsoftServerProxy):
     is_initialized = True
 
 
-class UninitializedServerProxy(InitializeMixin, ServerProxy, object):
+class UninitializedServerProxy(StubMixin, InitializeMixin, ServerProxy):
     is_initialized = False
 
     def __init__(self, *args, **kwargs):
