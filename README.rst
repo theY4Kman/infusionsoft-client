@@ -43,6 +43,13 @@ And use the ``infusionsoft`` like a regular `xmlrpc.client.ServerProxy <https://
 
 
 
+Setting XML-RPC Client Options
+------------------------------
+
+Any extra kwargs passed to ``initialize()`` will be passed along to ``xmlrpc.client.ServerProxy``.
+
+
+
 Usage with Django
 -----------------
 
