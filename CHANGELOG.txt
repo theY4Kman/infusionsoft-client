@@ -1,3 +1,9 @@
+UNRELEASED (TBA)
+================
+
+ - Allow passing extra kwargs to the XML-RPC client (xmlrpc.client.ServerProxy)
+
+
 1.4.0 (2017/08/16)
 ==================
 

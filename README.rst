@@ -43,6 +43,26 @@ And use the ``infusionsoft`` like a regular `xmlrpc.client.ServerProxy <https://
 
 
 
+Setting XML-RPC Client Options
+------------------------------
+
+Any extra kwargs passed to ``initialize()`` will be passed along to ``xmlrpc.client.ServerProxy``.
+
+.. code-block:: python
+
+    import infusionsoft
+    infusionsoft.initialize('myapp', '098f6bcd4621d373cade4e832627b4f6', use_builtin_types=True)
+
+Some kwargs of interest are:
+
+ - ``use_builtin_types``: whether to utilize native Python types, rather than wrappers such as ``xmlrpc.client.DateTime`` or ``xmlrpc.client.Binary``. **I recommend turning this on**. It will be turned on by default in the next major/breaking release.
+ - ``verbose``: set to ``True`` to print out the request and response bodies for each RPC call.
+ - ``allow_none``: whether to allow ``None`` to be sent over the wire. Infusionsoft, in general, doesn't allow ``None`` (which is ``nil`` in XML-RPC parlance). If a field in a response is null, Infusionsoft will simply not send it.
+
+See `the docs <https://docs.python.org/3/library/xmlrpc.client.html#xmlrpc.client.ServerProxy>`_ for more info.
+
+
+
 Usage with Django
 -----------------
 
@@ -61,6 +81,15 @@ And add your app name and API key to your settings:
 
     INFUSIONSOFT_APP_NAME = 'myapp'
     INFUSIONSOFT_API_KEY = '098f6bcd4621d373cade4e832627b4f6'
+
+
+Pass extra configuration to the XML-RPC client with ``INFUSIONSOFT_CLIENT_OPTIONS``:
+
+.. code-block:: python
+
+    INFUSIONSOFT_CLIENT_OPTIONS = {
+        'use_builtin_types': True,
+    }
 
 
 

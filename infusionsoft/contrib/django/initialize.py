@@ -20,4 +20,5 @@ def initialize():
                 'Please set INFUSIONSOFT_APP_NAME or INFUSIONSOFT_API_URL, '
                 'and INFUSIONSOFT_API_KEY in your settings')
 
-        infusionsoft.initialize(app_name_or_api_url, api_key)
+        options = getattr(settings, 'INFUSIONSOFT_CLIENT_OPTIONS', {})
+        infusionsoft.initialize(app_name_or_api_url, api_key, **options)

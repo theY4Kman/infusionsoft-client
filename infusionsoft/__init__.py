@@ -31,7 +31,7 @@ from infusionsoft.version import __version__
 
 # Stub. The actual values are exposed by Initialized/UninitializedServerProxy.
 is_initialized = False
-def initialize(api_url: str, api_key: str): pass
+def initialize(api_url: str, api_key: str, **options): pass
 
 
 __all__ += ['query', 'gen_stubs', 'client', 'contrib', 'is_initialized']
@@ -89,10 +89,10 @@ class InitializeMixin:
     client = client
     contrib = contrib
 
-    def initialize(self, api_url_or_app_name: str, api_key: str):
+    def initialize(self, api_url_or_app_name: str, api_key: str, **options):
         global _api_client
         _api_client = get_client(api_url_or_app_name, api_key,
-                                 client_cls=InitializedServerProxy)
+                                 client_cls=InitializedServerProxy, **options)
 
 
 class InitializedServerProxy(StubMixin, InitializeMixin,
