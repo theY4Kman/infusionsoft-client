@@ -55,9 +55,10 @@ Any extra kwargs passed to ``initialize()`` will be passed along to ``xmlrpc.cli
 
 Some kwargs of interest are:
 
- - ``use_builtin_types``: whether to utilize native Python types, rather than wrappers such as ``xmlrpc.client.DateTime`` or ``xmlrpc.client.Binary``. **I recommend turning this on**. It will be turned on by default in the next major/breaking release.
- - ``verbose``: set to ``True`` to print out the request and response bodies for each RPC call.
- - ``allow_none``: whether to allow ``None`` to be sent over the wire. Infusionsoft, in general, doesn't allow ``None`` (which is ``nil`` in XML-RPC parlance). If a field in a response is null, Infusionsoft will simply not send it.
+- ``use_builtin_types``: whether to utilize native Python types, rather than wrappers such as ``xmlrpc.client.DateTime`` or ``xmlrpc.client.Binary``. **I recommend turning this on**. It will be turned on by default in the next major/breaking release.
+- ``verbose``: set to ``True`` to print out the request and response bodies for each RPC call.
+- ``allow_none``: whether to allow ``None`` to be sent over the wire. Infusionsoft, in general, doesn't allow ``None`` (which is ``nil`` in XML-RPC parlance). If a field in a response is null, Infusionsoft will simply not send it.
+- ``retries``: number of times to retry failed requests. Requests are retried on connection/socket errors, and "InvalidConfig" faults (if you've never seen them, I envy you). Any other type of fault will still raise an exception.
 
 See `the docs <https://docs.python.org/3/library/xmlrpc.client.html#xmlrpc.client.ServerProxy>`_ for more info.
 
