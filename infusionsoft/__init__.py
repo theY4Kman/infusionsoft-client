@@ -94,6 +94,10 @@ class InitializeMixin:
         _api_client = get_client(api_url_or_app_name, api_key,
                                  client_cls=InitializedServerProxy, **options)
 
+    def get_version(self):
+        # This method is used by
+        return self.__version__
+
 
 class InitializedServerProxy(StubMixin, InitializeMixin,
                              InfusionsoftServerProxy):

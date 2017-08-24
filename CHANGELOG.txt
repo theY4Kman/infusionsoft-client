@@ -1,3 +1,9 @@
+UNRELEASED (TBA)
+================
+
+ - Expose get_version() to fix issue when used in conjunction with Django Debug Toolbar
+
+
 1.5.0 (2017/08/17)
 ==================
 
